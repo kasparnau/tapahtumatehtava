@@ -2,18 +2,21 @@ import { Link, Route, Routes } from "react-router-dom";
 
 import LoginPage from "./routes/LoginPage";
 import MainPage from "./routes/MainPage";
+import { useMainStore } from "./zustand";
 
 function Header() {
+  const { user } = useMainStore();
+
   const links = [
-    ["tapahtumat", "/tapahtumat"],
-    ["osallistujat", "/osallistujat"],
-    ["käyttäjät", "/kayttajat"],
-    ["asetukset", "/asetukset"],
+    ["Tapahtumat", "/tapahtumat"],
+    ["Osallistujat", "/osallistujat"],
+    ["Käyttäjät", "/kayttajat"],
+    ["Asetukset", "/asetukset"],
   ];
 
   return (
-    <div className="bg-sky-600 w-full text-lg flex justify-between">
-      <div className="flex gap-4 uppercase font-bold bg-sky-600 text-white">
+    <div className="bg-sky-600 w-full text-lg flex justify-between text-white">
+      <div className="flex gap-4 font-bold bg-sky-600">
         {links.map((link) => (
           <Link
             key={link[1]}
@@ -25,7 +28,7 @@ function Header() {
         ))}
       </div>
       <div className="p-4">
-        <Link to="/login">Kirjaudu sisään</Link>
+        {user ? user.username : <Link to="/login">Kirjaudu sisään</Link>}
       </div>
     </div>
   );
