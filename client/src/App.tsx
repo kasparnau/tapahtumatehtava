@@ -1,36 +1,47 @@
-import "./App.css";
+import { Link, Route, Routes } from "react-router-dom";
 
-import { Button } from "@/components/ui/button";
-import reactLogo from "./assets/react.svg";
-import { useState } from "react";
-import viteLogo from "/vite.svg";
+import LoginPage from "./routes/LoginPage";
+import MainPage from "./routes/MainPage";
 
-function App() {
-  const [count, setCount] = useState(0);
+function Header() {
+  const links = [
+    ["tapahtumat", "/tapahtumat"],
+    ["osallistujat", "/osallistujat"],
+    ["käyttäjät", "/kayttajat"],
+    ["asetukset", "/asetukset"],
+  ];
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="bg-sky-600 w-full text-lg flex justify-between">
+      <div className="flex gap-4 uppercase font-bold bg-sky-600 text-white">
+        {links.map((link) => (
+          <Link
+            key={link[1]}
+            to={link[1]}
+            className="hover:bg-sky-500 items-center flex justify-center p-4"
+          >
+            {link[0]}
+          </Link>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <Button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </Button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+      <div className="p-4">
+        <Link to="/login">Kirjaudu sisään</Link>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <div className="h-screen w-screen flex flex-col">
+      <Header />
+      <div className="w-full h-full flex bg-secondary">
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/" element={<MainPage />} />
+        </Routes>
+      </div>
+    </div>
   );
 }
 
