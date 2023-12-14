@@ -2,6 +2,7 @@ import { Link, Route, Routes } from "react-router-dom";
 
 import LoginPage from "./routes/LoginPage";
 import MainPage from "./routes/MainPage";
+import SettingsPage from "./routes/SettingsPage";
 import { useMainStore } from "./zustand";
 
 function Header() {
@@ -41,6 +42,7 @@ function App() {
       <div className="w-full h-full flex bg-secondary">
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/asetukset" element={<SettingsPage />} />
           <Route path="/" element={<MainPage />} />
         </Routes>
       </div>

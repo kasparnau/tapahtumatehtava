@@ -1,6 +1,8 @@
 import express from "express";
+import { getEvents } from "./sql";
 import session from "express-session";
-import { v4 as uuid } from "uuid";
+import setupAuth from "./auth";
+import setupSettings from "./settings";
 
 const PORT = 8080;
 const app = express();
@@ -11,36 +13,17 @@ app.use(
   session({
     secret: "/2345UM24U3IO5623^@",
     cookie: {},
+    resave: false,
+    saveUninitialized: false,
   })
 );
 
-declare module "express-session" {
-  export interface SessionData {
-    user: { [key: string]: any };
-  }
-}
-
-const users = {
-  admin: { password: "admin" },
-};
-
-app.get("/api/user", (req, res) => {
-  res.send({ user: req.session.user });
-});
-
-app.post("/api/login", (req, res) => {
-  const { username, password } = req.body;
-
-  const user = users[username];
-
-  if (!user) return res.sendStatus(403);
-  if (user.password !== password) return res.sendStatus(403);
-
-  req.session.user = { userId: 1, username };
-
-  res.json({ user: req.session.user });
-});
-
 app.listen(PORT, () => {
-  console.log("Started listening on port");
+  // api endpoints
+  setupAuth(app);
+  setupSettings(app);
+
+  // sql test
+  getEvents();
+  console.log("Started listening on ports");
 });
