@@ -1,6 +1,7 @@
 import {
   addEvent,
   addParticipant,
+  deleteEvent,
   deleteParticipant,
   getAllEvents,
   getAllParticipants,
@@ -15,6 +16,13 @@ export default (app) => {
   app.post("/api/events/add", async (req, res) => {
     const { title, description, date, time } = req.body;
     const result = await addEvent(title, description, date, time);
+    res.json({ result });
+  });
+
+  app.post("/api/events/delete", async (req, res) => {
+    const { id } = req.body;
+
+    const result = await deleteEvent(id);
     res.json({ result });
   });
 

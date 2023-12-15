@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import AddEventDialog from "./AddEventDialog";
 import { Button } from "@/components/ui/button";
+import { Trash2 } from "lucide-react";
 
 export interface IEvent {
   id: number;
@@ -18,13 +19,24 @@ export default () => {
 
   const refreshPage = async () => {
     const result = await fetch("/api/events").then((res) => res.json());
-    console.log(result);
     setEvents(result.events);
   };
 
   useEffect(() => {
     refreshPage();
   }, []);
+
+  const deleteEvent = async (id: number) => {
+    console.log("here");
+    await fetch("/api/events/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id }),
+    });
+    refreshPage();
+  };
 
   return (
     <div className="w-full p-8 flex flex-col gap-8">
@@ -41,7 +53,7 @@ export default () => {
           return (
             <div
               key={event.id}
-              className="flex flex-col p-4 gap-6 border border-slate-400 rounded w-fit"
+              className="flex flex-col p-4 gap-6 border border-slate-400 rounded max-w-3xl"
             >
               <h1 className="font-semibold text-xl">{event.title}</h1>
               <h1 className="">{event.description}</h1>
@@ -49,6 +61,16 @@ export default () => {
               <h1 className="">
                 {event.date} {event.time}
               </h1>
+              <div className="w-full flex justify-end">
+                <Button
+                  variant="destructive"
+                  className="w-fit gap-2 flex"
+                  onClick={() => deleteEvent(event.id)}
+                >
+                  <Trash2 />
+                  <h1>POISTA TAPAHTUMA</h1>
+                </Button>
+              </div>
             </div>
           );
         })}

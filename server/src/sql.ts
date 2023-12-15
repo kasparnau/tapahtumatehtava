@@ -21,6 +21,11 @@ export const getAllEvents = async () => {
   return result.rows;
 };
 
+export const deleteEvent = async (eventId: number) => {
+  const res = await client.query("DELETE FROM events WHERE id = $1", [eventId]);
+  return res;
+};
+
 export const addEvent = async (
   title: string,
   description: string,
