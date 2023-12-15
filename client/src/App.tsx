@@ -6,6 +6,7 @@ import MainPage from "./routes/MainPage";
 import ParticipantsPage from "./routes/ParticipantsPage";
 import SettingsPage from "./routes/SettingsPage";
 import UsersPage from "./routes/UsersPage";
+import { useEffect } from "react";
 import { useMainStore } from "./zustand";
 
 function Header() {
@@ -39,6 +40,19 @@ function Header() {
 }
 
 function App() {
+  const { setUser } = useMainStore();
+
+  const refreshUser = async () => {
+    const result = await fetch("/api/user").then((res) => res.json());
+    if (result.user) {
+      setUser(result.user);
+    }
+  };
+
+  useEffect(() => {
+    refreshUser();
+  }, []);
+
   return (
     <div className="h-screen w-screen flex flex-col">
       <Header />

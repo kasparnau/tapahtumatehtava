@@ -14,9 +14,9 @@ app.use(express.json());
 app.use(
   session({
     secret: "/2345UM24U3IO5623^@",
-    cookie: {},
-    resave: false,
-    saveUninitialized: false,
+    resave: true,
+    cookie: { maxAge: 8 * 60 * 60 * 1000 }, // 8 hours
+    saveUninitialized: true,
   })
 );
 
