@@ -1,8 +1,11 @@
 import { Link, Route, Routes } from "react-router-dom";
 
+import EventsPage from "./routes/EventsPage";
 import LoginPage from "./routes/LoginPage";
 import MainPage from "./routes/MainPage";
+import ParticipantsPage from "./routes/ParticipantsPage";
 import SettingsPage from "./routes/SettingsPage";
+import UsersPage from "./routes/UsersPage";
 import { useMainStore } from "./zustand";
 
 function Header() {
@@ -42,8 +45,11 @@ function App() {
       <div className="w-full h-full flex bg-secondary">
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/tapahtumat" element={<EventsPage />} />
+          <Route path="/osallistujat" element={<ParticipantsPage />} />
           <Route path="/asetukset" element={<SettingsPage />} />
-          <Route path="/" element={<MainPage />} />
+          <Route path="/kayttajat" element={<UsersPage />} />
+          <Route path="/" element={<EventsPage />} />
         </Routes>
       </div>
     </div>
